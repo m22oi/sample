@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding - 코딩, 감각이 되다</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Reset & Variables --- */
+        :root {
+            --primary: #8e2de2;
+            --secondary: #4a00e0;
+            --accent: #00d2ff;
+            --bg-dark: #0f0c29;
+            --text-light: #ffffff;
+            --text-gray: #b0b0b0;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- Background Animation --- */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 10% 20%, #240b36 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, #1a1a40 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, #0f0c29 0%, #000000 100%);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--secondary);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 50px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* --- Components --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 20px rgba(74, 0, 224, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(74, 0, 224, 0.6);
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 100;
+            background: rgba(15, 12, 41, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #b0b0b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-light);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #a1c4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- Features Section --- */
+        .section {
+            padding: 120px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 80px;
+        }
+
+        .section-title span {
+            color: var(--accent);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        /* --- Intro Section --- */
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .intro-text {
+            flex: 1;
+        }
+
+        .intro-visual {
+            flex: 1;
+            height: 400px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .code-snippet {
+            font-family: 'Courier New', Courier, monospace;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            color: #00ff88;
+            font-size: 0.9rem;
+            width: 80%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 50px 0;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* --- Scroll Animation Classes --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Mobile Responsive --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.8rem; }
+            .nav-links { display: none; }
+            .intro { flex-direction: column; }
+            .intro-visual { width: 100%; height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-gradient">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Vibe Coding</div>
+                <ul class="nav-links">
+                    <li><a href="#about">소개</a></li>
+                    <li><a href="#features">특징</a></li>
+                    <li><a href="#start">시작하기</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container hero-content reveal">
+            <h1>코딩, <br>흐름에 맡기세요.</h1>
+            <p>복잡한 로직은 AI에게, 당신은 오직 영감에 집중하세요.<br>
+            가장 현대적인 개발 경험, 바이브 코딩을 소개합니다.</p>
+            <a href="#about" class="btn btn-primary">더 알아보기</a>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <div class="intro reveal">
+                <div class="intro-visual">
+                    <div class="code-snippet">
+                        > Initiating Flow State...<br>
+                        > AI Copilot Connected.<br>
+                        > Creativity Level: 100%<br>
+                        > <span style="color:white">Build meaningful software</span><br>
+                        > <span class="cursor">_</span>
+                    </div>
+                </div>
+                <div class="intro-text">
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 30px;">
+                        기술 너머의 <span>감각</span>
+                    </h2>
+                    <p style="color: var(--text-gray); margin-bottom: 20px;">
+                        기존의 코딩이 문법과의 싸움이었다면, 바이브 코딩은 음악을 연주하는 것과 같습니다. 
+                        자연어 명령으로 구조를 잡고, AI가 디테일을 채웁니다.
+                    </p>
+                    <p style="color: var(--text-gray);">
+                        개발자는 더 이상 '작성자'가 아닌 '지휘자'가 됩니다. 
+                        오직 결과물의 가치와 사용자 경험에만 몰입할 수 있는 환경을 경험해보세요.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="features">
+        <div class="container">
+            <h2 class="section-title reveal">Why <span>Vibe Coding?</span></h2>
+            <div class="grid">
+                <div class="card reveal">
+                    <span class="card-icon">⚡</span>
+                    <h3>Zero Friction</h3>
+                    <p>설정부터 배포까지. 불필요한 마찰을 제거하여 아이디어가 곧바로 현실이 되는 속도를 경험하세요.</p>
+                </div>
+                <div class="card reveal">
+                    <span class="card-icon">🧠</span>
+                    <h3>AI Native</h3>
+                    <p>단순한 자동완성이 아닙니다. 문맥을 이해하고 전체 아키텍처를 제안하는 진정한 파트너 AI입니다.</p>
+                </div>
+                <div class="card reveal">
+                    <span class="card-icon">🌊</span>
+                    <h3>Flow State</h3>
+                    <p>중단 없는 몰입의 즐거움. 코딩하는 순간 자체가 명상이 되는 경험을 선사합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="start" style="text-align: center;">
+        <div class="container reveal">
+            <h2 style="font-size: 3rem; margin-bottom: 30px;">당신의 바이브를<br>코드로 만드세요.</h2>
+            <p style="color: var(--text-gray); margin-bottom: 50px;">지금 바로 얼리 액세스를 신청하고 새로운 차원의 개발을 시작하세요.</p>
+            <a href="#" class="btn btn-primary">얼리 액세스 신청하기</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Vibe Coding. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll Reveal Animation setup
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 150;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            // Trigger once on load
+            revealOnScroll();
+
+            // Add scroll event listener
+            window.addEventListener('scroll', revealOnScroll);
+
+            // Simple cursor blink animation for code snippet
+            const cursor = document.querySelector('.cursor');
+            if(cursor) {
+                setInterval(() => {
+                    cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>
